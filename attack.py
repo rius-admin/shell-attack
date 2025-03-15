@@ -6,6 +6,7 @@ import requests
 import os
 import threading
 import queue
+from urllib.parse import urljoin
 
 # Bersihkan layar saat program dijalankan
 os.system('cls' if os.name == 'nt' else 'clear')
@@ -18,28 +19,28 @@ def Space(j):
     print("")
 
 # Menampilkan tampilan awal dengan spasi kosong
-print("\n" * 1)  # Menambah 5 baris kosong agar terminal terlihat lebih rapi
+print("\n" * 1)  # Menambah 1 baris kosong agar terminal terlihat lebih rapi
 
 print("===================================================================== ")
 print("          ")
 print("          ")
-print("              ╔══╗╔╗╔╗╔═╗╔╗─╔╗     ╔══╗╔══╗╔══╗╔══╗╔═╗╔╦╗ ") 
-print("              ╚╗╗║║╚╝║║╦╝║║─║║     ║╔╗║╚╗╔╝╚╗╔╝║╔╗║║╔╝║╔╝ ")
-print("              ╔╩╝║║╔╗║║╩╗║╚╗║╚╗    ║╠╣║─║║──║║─║╠╣║║╚╗║╚╗ ")
-print("              ╚══╝╚╝╚╝╚═╝╚═╝╚═╝    ╚╝╚╝─╚╝──╚╝─╚╝╚╝╚═╝╚╩╝ ") 
-print("              ─────────────────    ────────────────────── ")
+print("             ╔══╗╔╗╔╗╔═╗╔╗─╔╗     ╔══╗╔══╗╔══╗╔══╗╔═╗╔╦╗ ") 
+print("             ╚╗╗║║╚╝║║╦╝║║─║║     ║╔╗║╚╗╔╝╚╗╔╝║╔╗║║╔╝║╔╝ ")
+print("             ╔╩╝║║╔╗║║╩╗║╚╗║╚╗    ║╠╣║─║║──║║─║╠╣║║╚╗║╚╗ ")
+print("             ╚══╝╚╝╚╝╚═╝╚═╝╚═╝    ╚╝╚╝─╚╝──╚╝─╚╝╚╝╚═╝╚╩╝ ") 
+print("             ─────────────────    ────────────────────── ")
 print("          ")
 print("          ")
 print("===================================================================== ")
 
 # Fungsi utama untuk brute-force
-def brute_force(session, link, q):
+def brute_force(session, base_url, q):
     """Brute-force dengan multi-threading kecepatan tinggi"""
     while not q.empty():
         sub_link = q.get()
-        req_link = f"{link}/{sub_link}"
+        req_link = urljoin(base_url, sub_link)  # Pastikan path tetap valid
         try:
-            response = session.get(req_link, timeout=1)  # Timeout cepat (1 detik)
+            response = session.get(req_link, timeout=0.8)  # Timeout lebih cepat (0.8 detik)
             if response.status_code == 200:
                 print(f"✔ Hasil ditemukan => {req_link} (Status Code: {response.status_code})")
         except requests.exceptions.RequestException:
@@ -55,11 +56,14 @@ def findAdmin():
         print("[!] yha anda kurang beruntung^_-")
         return
     
-    link = input("       contoh ; target.co  \n bot-robots(scan) > ").strip()
-    print("        \n\nbot-robots(scan) : \n")
+    link = input("       contoh ; target.co \n bot-robots(scan) > ").strip()
+    print("        \n\n bot-robots(scan) : \n")
 
     if not link.startswith(("http://", "https://")):
         link = "http://" + link
+
+    if not link.endswith("/"):
+        link += "/"  # Pastikan URL diakhiri "/"
 
     q = queue.Queue()
     for path in paths:
