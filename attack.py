@@ -18,16 +18,16 @@ def Space(j):
     print("")
 
 # Menampilkan tampilan awal dengan spasi kosong
-print("\n" * 5)  # Menambah 5 baris kosong agar terminal terlihat lebih rapi
+print("\n" * 2)  # Menambah 5 baris kosong agar terminal terlihat lebih rapi
 
 print("===================================================================== ")
 print("          ")
 print("          ")
-print("   ╔══╗╔╗╔╗╔═╗╔╗─╔╗     ╔══╗╔══╗╔══╗╔══╗╔═╗╔╦╗ ") 
-print("   ╚╗╗║║╚╝║║╦╝║║─║║     ║╔╗║╚╗╔╝╚╗╔╝║╔╗║║╔╝║╔╝ ")
-print("   ╔╩╝║║╔╗║║╩╗║╚╗║╚╗    ║╠╣║─║║──║║─║╠╣║║╚╗║╚╗ ")
-print("   ╚══╝╚╝╚╝╚═╝╚═╝╚═╝    ╚╝╚╝─╚╝──╚╝─╚╝╚╝╚═╝╚╩╝ ") 
-print("   ─────────────────    ────────────────────── ")
+print("          ╔══╗╔╗╔╗╔═╗╔╗─╔╗     ╔══╗╔══╗╔══╗╔══╗╔═╗╔╦╗ ") 
+print("          ╚╗╗║║╚╝║║╦╝║║─║║     ║╔╗║╚╗╔╝╚╗╔╝║╔╗║║╔╝║╔╝ ")
+print("          ╔╩╝║║╔╗║║╩╗║╚╗║╚╗    ║╠╣║─║║──║║─║╠╣║║╚╗║╚╗ ")
+print("          ╚══╝╚╝╚╝╚═╝╚═╝╚═╝    ╚╝╚╝─╚╝──╚╝─╚╝╚╝╚═╝╚╩╝ ") 
+print("          ─────────────────    ────────────────────── ")
 print("          ")
 print("          ")
 print("===================================================================== ")
@@ -55,8 +55,8 @@ def findAdmin():
         print("[!] yha anda kurang beruntung^_-")
         return
     
-    link = input("contoh ; target.co  \n bot-robots(scan) > ").strip()
-    print("\n\nbot-robots(scan) : \n")
+    link = input("     contoh ; target.co  \n bot-robots(scan) > ").strip()
+    print("     \n\nbot-robots(scan) : \n")
 
     if not link.startswith(("http://", "https://")):
         link = "http://" + link
@@ -79,11 +79,11 @@ def findAdmin():
 
 def Credit():
     Space(9)
-    print("  ------------------------")
+    print("    ------------------------")
     Space(9)
-    print("[•] Cyber Sederhana Team [•]")
+    print("  [•] Cyber Sederhana Team [•]")
     Space(9)
-    print("  ------------------------")
+    print("    ------------------------")
     Space(9)
     print(" ")
 
