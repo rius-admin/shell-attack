@@ -73,7 +73,7 @@ def findAdmin():
 
     with requests.Session() as session:
         threads = []
-        max_threads = 100  # Pakai 100 thread agar brute super cepat
+        max_threads = 40  # Pakai
         stop_flag = threading.Event()  # Flag untuk menghentikan semua thread jika hasil ditemukan
 
         for _ in range(max_threads):
