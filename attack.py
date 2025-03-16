@@ -1,26 +1,23 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
-# Script by Mr.Rius
+# Script by Mr.Rius (Diperbarui)
 
 import requests
 import os
 import threading
 import queue
+import time
+import random
 from urllib.parse import urljoin
 
 # Bersihkan layar saat program dijalankan
 os.system('cls' if os.name == 'nt' else 'clear')
 
 def Space(j):
-    i = 0
-    while i <= j:
-        print(" ", end="")
-        i += 1
-    print("")
+    print(" " * j)
 
-# Menampilkan tampilan awal dengan spasi kosong
-print("\n" * 1)  # Menambah 1 baris kosong agar terminal terlihat lebih rapi
-
+# Menampilkan tampilan awal
+print("\n" * 1)  
 print("===================================================================== ")
 print("          ")
 print("          ")
@@ -34,22 +31,25 @@ print("          ")
 print("===================================================================== ")
 
 # Fungsi utama untuk brute-force
-def brute_force(session, base_url, q, stop_flag):
-    """Brute-force dengan multi-threading kecepatan tinggi"""
-    while not q.empty() and not stop_flag.is_set():
+def brute_force(session, base_url, q):
+    """Brute-force dengan kecepatan yang lebih stabil"""
+    while not q.empty():
         sub_link = q.get()
         req_link = urljoin(base_url, sub_link)  # Pastikan path tetap valid
         try:
-            response = session.get(req_link, timeout=0.8)  # Timeout lebih cepat (0.8 detik)
+            response = session.get(req_link, timeout=2)  # Timeout lebih panjang untuk stabilitas
             if response.status_code == 200:
                 print(f"✔ Hasil ditemukan => {req_link} (Status Code: {response.status_code})")
-                stop_flag.set()  # Hentikan semua thread jika hasil ditemukan
+            else:
+                print(f"[-] Coba: {req_link} (Status: {response.status_code})")
         except requests.exceptions.RequestException:
-            pass  # Lewati error agar tetap berjalan stabil
+            print(f"[!] Error mengakses {req_link}")  
+        finally:
+            time.sleep(random.uniform(0.3, 0.8))  # Tambahkan delay agar tidak terlalu cepat
         q.task_done()
 
 def findAdmin():
-    """Brute-force scanner tercepat"""
+    """Brute-force scanner dengan pengaturan kecepatan lebih stabil"""
     try:
         with open("shell.txt", "r") as f:
             paths = f.read().splitlines()
@@ -58,7 +58,7 @@ def findAdmin():
         return
     
     link = input("       contoh ; target.co \n bot-robots(scan) > ").strip()
-    print (" ") 
+    print(" ") 
     print("        \n\n    bot-robots(scan) : \n")
 
     if not link.startswith(("http://", "https://")):
@@ -73,11 +73,10 @@ def findAdmin():
 
     with requests.Session() as session:
         threads = []
-        max_threads = 30  # Pakai
-        stop_flag = threading.Event()  # Flag untuk menghentikan semua thread jika hasil ditemukan
+        max_threads = 15  # Mengurangi jumlah thread agar tidak terlalu cepat
 
         for _ in range(max_threads):
-            t = threading.Thread(target=brute_force, args=(session, link, q, stop_flag))
+            t = threading.Thread(target=brute_force, args=(session, link, q))
             t.start()
             threads.append(t)
 
