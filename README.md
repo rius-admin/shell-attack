@@ -9,4 +9,4 @@
 # ls
 # cd shell-attack
 # ls
-# python shell-attack.py
+# python attack.py
